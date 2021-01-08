@@ -15,6 +15,8 @@ import random
 #général
 
 alien = []
+xD = 1
+yD = 0
 char = [0,0,0]
 vie = 0
 score = 0
@@ -96,7 +98,6 @@ def clavier(touche):
 
 
 
-
 ### STRUCTURE JEU ###
 
 
@@ -155,8 +156,7 @@ def run():
 
     # Alien
 
-    xD = 1
-    yD = 0
+    global xD, yD
 
     if xD == 1:
         for i in alien:
@@ -178,14 +178,25 @@ def run():
         if i[0] > 12:
             yD = 1
             xD = 0
-            break
-    if yD == 1:
+        if i[0] < 0.75:
+            yD = -1
+            xD = 0
+    if yD == 1 or yD == -1:
         for i in alien:
-            i[1] = i[1] + 0.025
+            i[1] = i[1] + 0.3
+        if yD == 1:
+            xD = -1
+        else:
+            xD = 1
         yD = 0
-        xD = - 1
 
     #Collision
+
+    #Game Over
+
+    #if vie == 0:
+        #while clavier(touche) == 1:
+            #print("game over")
 
 
 
