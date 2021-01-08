@@ -12,22 +12,32 @@ import random
 
 ### VARIABLES ###
 
+#général
+
 alien = []
 char = [0,0,0]
-soucoupe = []
 vie = 0
-abris = []
 score = 0
 hauteur = 1000
 largeur = 1000
+
+#Deplacements
+
 keys = []
 espace = 0
 left = 0
 right = 0
 touche = 0
 
+#Gestion Tir
 
-#importer sprites/musique
+tir = 0
+Xs = 0
+Ys = 0
+Xe = 0
+Ye = 0
+Av = 0
+
 
 ### FONCTIONS ###
 
@@ -69,26 +79,6 @@ def crea_char():
     charr = [20,900,1]
     return charr
 
-
-
-def crea_abris():
-
-    global abris
-
-    x = 1
-    y = 1
-
-    et = 5 #6 etats possible sachant que 0: plus d'abris
-
-    for i in range(1,5):
-        x = i
-        abris = abris + [[x,y,et,(0,255,0)]]
-
-    return abris
-
-
-
-
 def clavier(touche):
 
     left = 0
@@ -125,21 +115,18 @@ def setup():
 
     alien = crea_alien()
     char = crea_char()
-    crea_abris()
-
-
 
 
 def run():
 
-
-
-    pygame.draw.rect(core.screen, (0,255,0), ((char[0], char[1]), (40, 40)))
-    #Mouvement char
+    #Clavier
 
     touche = core.getkeyPressValue()
     l,r,e = clavier(touche)
 
+    #Char
+
+    pygame.draw.rect(core.screen, (0,255,0), ((char[0], char[1]), (40, 40)))
 
     if l == 1:
         char[0] = char[0] - 5
@@ -148,26 +135,58 @@ def run():
 
     # Tir
 
-    #if e == 1:
 
+    global tir, Xs, Ys, Xe, Ye, Av
+
+    if e == 1:
+        tir = 1
+
+    if tir == 1:
+        Xs = char[0] + 20
+        Ys = char[1]
+        Xe = char[0] + 20
+        Ye = char[1] - 50
+        Av = 1
+        pygame.draw.line(core.screen, (255,0,0), (Xs,Ys), (Xe,Ye))
+
+    if Av == 1:
+        Ys = Ys - 10
+        Ye = Ye - 10
 
     # Alien
+
     xD = 1
     yD = 0
 
-    for i in alien:
-        pygame.draw.rect(core.screen, (255, 255, 255), ((i[0]*75,i[1]*75), (50,50)))
+    if xD == 1:
+        for i in alien:
+            pygame.draw.rect(core.screen, (255, 255, 255), ((i[0]*75,i[1]*75), (50,50)))
 
-        i[0] = i[0] + 0.005
+            i[0] = i[0] + 0.005
+    if xD == -1:
+        for i in alien:
+            pygame.draw.rect(core.screen, (255, 255, 255), ((i[0]*75,i[1]*75), (50,50)))
 
+            i[0] = i[0] - 0.005
+
+    if xD == 0:
+        for i in alien:
+            pygame.draw.rect(core.screen, (255, 255, 255), ((i[0]*75,i[1]*75), (50,50)))
 
 
     for i in alien:
         if i[0] > 12:
-            c = 1
-    if  == 1:
+            yD = 1
+            xD = 0
+            break
+    if yD == 1:
         for i in alien:
             i[1] = i[1] + 0.025
+        yD = 0
+        xD = - 1
+
+    #Collision
+
 
 
 
