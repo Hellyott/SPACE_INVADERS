@@ -273,19 +273,13 @@ def run():
             Ys = 0
             Ye = 0
             Av = 0
-            m.remove(m[1])
-            m.remove(m[0])
+
 
 
     if mort_a == 1:
         score = score + 10
         print(score)
         mort_a = 0
-
-
-
-
-
 
 if __name__ == "__main__":
     core.main(setup, run)
