@@ -19,6 +19,8 @@ xD = 1
 yD = 0
 char = [0,0,0]
 vie = 0
+mort = 0
+mort_a = 0
 score = 0
 hauteur = 1000
 largeur = 1000
@@ -111,6 +113,7 @@ def setup():
 
     global left
     global right
+    global score, vie, game_over, mort
 
     core.fps = 30
     core.WINDOW_SIZE = [hauteur, largeur]
@@ -128,7 +131,7 @@ def run():
 
     #General
 
-    global score, vie, game_over
+    global score, vie, game_over, mort, mort_a
 
     #Clavier
 
@@ -137,18 +140,16 @@ def run():
 
     #Game Over
 
-    if vie == 0:
-        game_over = 1
+    #if vie == 0:
+        #game_over = 1
 
-    if game_over == 1:
-        while e != 1:
-            touche = core.getkeyPressValue()
-            l,r,e = clavier(touche)
-            print("game over")
+    #if game_over == 1:
+        #while e != 1:
+            #touche = core.getkeyPressValue()
+            #l,r,e = clavier(touche)
+            #print("game over")
         #if __name__ == "__main__":
             #core.main(setup, run)
-
-
 
 
     #Char
@@ -159,6 +160,7 @@ def run():
         char[0] = char[0] - 5
     if r == 1:
         char[0] = char[0] + 5
+
 
     # Tir
 
@@ -250,20 +252,35 @@ def run():
 
     #Collision
 
-    if Ys_a > char[1] and char[0] < Xs_a < char[0] + 40:
-        vie = vie - 1
+    if Ye_a > char[1] and char[0] < Xe_a < char[0] + 40:
+        mort = 1
+        Xe_a = 0
+        Ye_a = 0
+        Xs_a = 0
+        Ys_a = 0
+
+    if mort ==1:
+        vie = vie -1
+        mort = 0
+
+    print(vie)
+
+    for m in alien:
+        if m[0]*75 < Ye < m[0]*75 + 50 and m[1]*75 < Ye < m[1]*75 + 50:
+            mort_a = 1
+            Xs = 0
+            Xe = 0
+            Ys = 0
+            Ye = 0
+            Av = 0
+            m.remove(m[1])
+            m.remove(m[0])
 
 
-    #for i in alien:
-        #if i[0]*75 < Ys < i[0]*75 + 50 and i[1]*75 < Ys < i[1]*75 + 50:
-            #score = score + 1
-            #Xs = 0
-            #Xe = 0
-            #Ys = 0
-            #Ye = 0
-            #Av = 0
-
-
+    if mort_a == 1:
+        score = score + 10
+        print(score)
+        mort_a = 0
 
 
 
