@@ -300,6 +300,7 @@ def run():
         if mort_a == 1:
             score = score + 10
             mort_a = 0
+            print(score)
 
         # Collision alien Char
 
